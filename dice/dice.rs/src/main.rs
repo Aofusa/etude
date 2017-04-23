@@ -12,11 +12,11 @@ struct GameObject {
 
 impl GameObject {
     fn attack(&self) -> i32 {
-        rand::thread_rng().gen_range(1, self.atk);
+        return rand::thread_rng().gen_range(1, self.atk);
     }
 
     fn damage(&mut self, dmg: i32) {
-        self.hp -= dmg;
+        self.hp - dmg;
     }
 }
 
@@ -27,7 +27,7 @@ struct GameTask {
 impl GameTask {
     fn game(&mut self, mut playerHP: i32) {
         println!("Welcome to your Graveyard...");
-        for obj in self.objList {
+        for mut obj in &self.objList {
             println!("You Encount with {}", obj.name);
             loop {
                 println!("\n================================================================================");
@@ -35,7 +35,9 @@ impl GameTask {
                 println!("{} HP: {}", obj.name, obj.hp.to_string());
                 println!("What\'s a enemy\'s number...?");
                 print!("> ");
-                let num = io::stdin().read_line().unwrap().to_int();
+                let mut input = String::new();
+                io::stdin().read_line(&mut input).unwrap();
+                let num = input.parse::<i32>().unwrap();
                 let enu = obj.attack();
                 println!("Your number is {}", num.to_string());
                 println!("{}\'s number is {}", obj.name, enu.to_string());
@@ -63,12 +65,12 @@ impl GameTask {
 }
 
 fn main() {
-  let monsters = [
+  let monsters = vec![
     GameObject { name: "SLIME", hp: 1, atk:1 },
     GameObject { name: "WOLF", hp: 2, atk: 2 },
     GameObject { name: "DRAGON", hp: 3, atk: 3 }
   ];
-  let task = GameTask { objList: monsters };
+  let mut task = GameTask { objList: monsters };
 
   task.game(10);
 }

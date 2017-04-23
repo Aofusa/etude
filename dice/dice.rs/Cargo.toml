@@ -1,0 +1,8 @@
+[package]
+
+name = "dice"
+version = "0.0.1"
+authors = [ "Aofusa <dotejector@gmail.com>" ]
+
+[dependencies]
+rand = "0.3.0"
